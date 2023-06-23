@@ -1,4 +1,4 @@
-#I've finally become a real coder by making my own Mandelbrot renderer
+# I've finally become a real coder by making my own Mandelbrot renderer
  
 To install-
 ```
