@@ -25,13 +25,9 @@ def mandle(c):
         iterations += 1
     return 0
 
-#scale iterations to be more visual on (0, 255)
-def scaleIterations(i):
-    return i % 255
-
 #wrapper for render calculations to simplify code
 def wrapper(i, r, realMin, step, imMin):
-    return scaleIterations(mandle(makeComplex(realMin + step * r, imMin + step * i)))
+    return mandle(makeComplex(realMin + step * r, imMin + step * i))
 
 #renders mandlebrot given dimensions and saves image
 def render(realMin, realMax, imMin, imMax, resolution):
@@ -42,16 +38,16 @@ def render(realMin, realMax, imMin, imMax, resolution):
     result_async = [[pool.apply_async(wrapper, args = (i, r, realMin, step, imMin)) for r in range(resolution)] for i in range(imRes)]
     data = [[element.get() for element in array] for array in result_async]
     data = np.array(data).astype(np.int8)
-    data = np.uint8(cm.hsv(data)*255)
+    #data = np.uint8(cm.hsv(data)*255) <- to convert to color
     img = Image.fromarray(data)
-    img = img.convert('RGB')
+    img = img.convert('L')
     img.save('output/Mandlebrot.png')
 
 if __name__ == "__main__":
     realMin = input("enter minimum real coordinate: ")
     if realMin == "":
         maxIterations = 10000
-        render(0.29445, 0.29525, 0.018, 0.0185, 1600)
+        render(0.294687, 0.294776, 0.018231105, 0.018286730, 2560)
     else:
         realMin = float(realMin)
         realMax = float(input("enter maximum real coordinate: "))
