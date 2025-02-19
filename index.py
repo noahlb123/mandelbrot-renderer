@@ -1,5 +1,6 @@
 import numpy as np
 import multiprocessing
+import sys
 from PIL import Image
 from matplotlib import cm
 
@@ -44,16 +45,21 @@ def render(realMin, realMax, imMin, imMax, resolution):
     img.save('output/Mandlebrot.png')
 
 if __name__ == "__main__":
-    realMin = input("enter minimum real coordinate: ")
-    if realMin == "":
-        maxIterations = 10000
-        render(0.294687, 0.294776, 0.018231105, 0.018286730, 2560)
+    if len(sys.argv) < 2:
+        realMin = input("enter minimum real coordinate: ")
+        if realMin == "":
+            maxIterations = 10000
+            render(0.294687, 0.294776, 0.018231105, 0.018286730, 2560)
+        else:
+            realMin = float(realMin)
+            realMax = float(input("enter maximum real coordinate: "))
+            imMin = float(input("enter minimum imaginary coordinate: "))
+            imMax = float(input("enter maximum imaginary coordinate: "))
+            resolution = int(input("enter resolution (pixles): "))
+            maxIterations = int(input("enter maximum iterations: "))
+            render(realMin, realMax, imMin, imMax, resolution)
     else:
-        realMin = float(realMin)
-        realMax = float(input("enter maximum real coordinate: "))
-        imMin = float(input("enter minimum imaginary coordinate: "))
-        imMax = float(input("enter maximum imaginary coordinate: "))
-        resolution = int(input("enter resolution (pixles): "))
-        maxIterations = int(input("enter maximum iterations: "))
-        render(realMin, realMax, imMin, imMax, resolution)
+        (realMin, realMax, imMin, imMax, resolution, maxIterations) = sys.argv[1].split(',')
+        maxIterations = int(maxIterations)
+        render(float(realMin), float(realMax), float(imMin), float(imMax), int(resolution))
     print("done.")
