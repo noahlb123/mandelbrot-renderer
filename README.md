@@ -3,7 +3,7 @@
 To install-
 ```
 git clone https://github.com/noahlb123/mandelbrot-renderer
-pip3 install numpy PIL matplotlib sys
+pip3 install numpy Pillow matplotlib sys
 cd mandelbrot-renderer
 ```
 To run-
